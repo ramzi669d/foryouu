@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formyghzala.com</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #ffe6f0;
+      background-size: cover;
+      background-repeat: repeat;
+      overflow-x: hidden;
+    }
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+    .slider {
+      width: 300px;
+      height: 400px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+    .slider img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .slider img.active {
+      opacity: 1;
+    }
+    .heart-button {
+      font-size: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .choice-btn {
+      margin: 10px;
+      font-size: 1.5rem;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+    .hidden { display: none; }
+    .falling-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .falling-hearts span {
+      position: absolute;
+      color: red;
+      animation: fall 4s linear infinite;
+    }
+    @keyframes fall {
+      to { transform: translateY(100vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- AUDIO -->
+  <audio id="loveSound" src="love.mp3" preload="auto"></audio>
+
+  <!-- PAGE D'ACCUEIL -->
+  <div id="accueil" class="center">
+    <h1>mrhbabik fel maw9i3 ta3ek cheff</h1>
+    <div class="slider">
+      <img src="IMG_3937.png" class="active" alt="Image 3" />
+      <img src="9817C67E-F689-4144-8CE4-157A6EFEED4E.jpg" alt="Image 4" />
+    </div>
+    <br><br>
+    <button class="heart-button" onclick="showChoicePage()">❤️</button>
+  </div>
+
+  <!-- PAGE DE CHOIX -->
+  <div id="choix" class="center hidden">
+    <h2>Est-ce que tu me pardonnes ?</h2>
+    <div style="font-size: 50px;">🐸</div>
+    <button class="choice-btn" style="background-color:#b3ffb3" onclick="pardonne()">✅ nsmahlk</button>
+    <button class="choice-btn" style="background-color:#ffb3b3" onclick="pasPardonne()">❌ mansmahlkch</button>
+  </div>
+
+  <!-- PAGE PARDONNÉ -->
+  <div id="pardonneDiv" class="center hidden">
+    <h2>rani smhtlk yaa difda3 ya lmkrach ya l psycoman</h2>
+    <p>ani smahtelk bs7 balak tzid t3wdha rjlawiii</p>
+    <div style="font-size: 40px;">🦉🐸</div>
+    <div class="falling-hearts" id="hearts"></div>
+    <h3>atchiwaywaywaaaa zagharti zaghrtiii yaa mraaaa</h3>
+  </div>
+
+  <!-- PAGE NON PARDONNÉ -->
+  <div id="pasPardonneDiv" class="center hidden">
+    <div style="font-size: 50px; transform: rotate(180deg);">🐸</div>
+    <h2>smhiliii habibti khlas</h2>
+    <p>😢 3mriii zin dyalii asmhiliii !</p>
+    <button class="choice-btn" onclick="showChoicePage()">🔁 Réessayer</button>
+  </div>
+
+  <script>
+    // Changement automatique des images
+    let slideIndex = 0;
+    const slides = document.querySelectorAll('.slider img');
+    setInterval(() => {
+      slides[slideIndex].classList.remove('active');
+      slideIndex = (slideIndex + 1) % slides.length;
+      slides[slideIndex].classList.add('active');
+    }, 3000);
+
+    function showChoicePage() {
+      document.getElementById('accueil').classList.add('hidden');
+      document.getElementById('pardonneDiv').classList.add('hidden');
+      document.getElementById('pasPardonneDiv').classList.add('hidden');
+      document.getElementById('choix').classList.remove('hidden');
+    }
+
+    function pardonne() {
+      document.getElementById('choix').classList.add('hidden');
+      document.getElementById('pardonneDiv').classList.remove('hidden');
+      startHearts();
+
+      const audio = document.getElementById('loveSound');
+      audio.currentTime = 42;
+      audio.play();
+    }
+
+    function pasPardonne() {
+      document.getElementById('choix').classList.add('hidden');
+      document.getElementById('pasPardonneDiv').classList.remove('hidden');
+    }
+
+    function startHearts() {
+      const container = document.getElementById('hearts');
+      for (let i = 0; i < 30; i++) {
+        let heart = document.createElement('span');
+        heart.innerText = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+        container.appendChild(heart);
+      }
+    }
+  </script>
+</body>
+</html>
